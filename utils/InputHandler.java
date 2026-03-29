@@ -20,7 +20,7 @@ public class InputHandler {
             } else {
                 System.out.println("Invalid input. Please enter a number.");
             }
-            scanner.nextLine(); // Clear the buffer (very important!)
+            scanner.nextLine();
         }
         return input;
     }

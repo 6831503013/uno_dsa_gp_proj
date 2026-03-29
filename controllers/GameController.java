@@ -27,24 +27,52 @@ public class GameController {
     }
 
     private void setupPlayers() {
+        // Just for the sake of the program
         String[] names = { "Human", "CPU 1", "CPU 2" };
         for (String n : names) {
+            // adding players to the game via Player constructor
             players.add(new Player(n));
         }
     }
 
+    /**
+     * Distributes starting hands to all players using a round-robin approach.
+     * This ensures fairness by following standard table dealing rules.
+     */
     private void dealCards() {
-        // TODO
+        /**
+         * Shuffling before distribution is critical to ensure game randomness and
+         * fairness
+         */
         deck.shuffleDeck();
-        for (Player player : players) {
-            for (int i = 0; i < 7; i++) {
-                player.addCard(deck.drawCard());
+
+        int cardsPerPlayer = 7;
+
+        // We use a nested loop to implement "Round-Robin" dealing.
+        // The outer loop represents the "round" (1st card, 2nd card, etc.)
+        for (int i = 0; i < cardsPerPlayer; i++) {
+
+            /**
+             * The inner loop iterates through the player list to give each player one card
+             * per round
+             */
+            for (Player player : players) {
+
+                /*
+                 * * We use safeDraw() instead of deck.drawCard() to protect against
+                 * NullPointerExceptions if the deck size is smaller than (players * 7).
+                 */
+                Card drawnCard = safeDraw();
+
+                if (drawnCard != null) {
+                    player.addCard(drawnCard);
+                }
             }
         }
     }
 
     private void initializeDiscardPile() {
-        Card firstCard = deck.drawCard();
+        Card firstCard = safeDraw();
         while (firstCard != null && firstCard.getValue().equals("WildDraw4")) {
             deck.addCard(firstCard);
             deck.shuffleDeck();
