@@ -81,6 +81,9 @@ public class GameController {
         if (firstCard != null) {
             discardPile.push(firstCard); // Only push once
             currentColor = firstCard.getColor();
+
+            // Optional: Trigger special effect if the first card isn't a normal number
+            handleSpecialCard(firstCard);
         }
     }
 
@@ -91,7 +94,7 @@ public class GameController {
 
             Card chosenCard = currentPlayer.playTurn(topCard);
 
-            if (chosenCard != null && isValidMove(chosenCard)) {
+            if (chosenCard != null && GameRules.isValidMove(chosenCard, topCard, currentColor)) {
                 System.out.println(currentPlayer.getName() + " played: " + chosenCard);
                 discardPile.push(chosenCard);
                 handleSpecialCard(chosenCard);
@@ -111,45 +114,70 @@ public class GameController {
         }
     }
 
-    private boolean isValidMove(Card cardToPlay) {
-        Card topCard = discardPile.peek();
+    public void skipNextPlayer() {
+        nextTurn();
+        System.out.println("The next player is skipped.");
+    }
 
-        return cardToPlay.getColor().equals(currentColor) || // Check declaring color
-                cardToPlay.getValue().equals(topCard.getValue()) || // Check symbol/number
-                cardToPlay.getColor().equals("Wild"); // Wilds are always valid
+    public void reverseDirection() {
+        if (players.size() > 2) {
+            isClockWise = !isClockWise;
+        } else {
+            nextTurn();
+        }
+    }
+
+    public Player getNextPlayer() {
+        int direction = isClockWise ? 1 : -1;
+        // We add players.size() before the modulo to handle negative results from
+        // counter-clockwise
+        int nextIndex = (currentPlayerIndex + direction + players.size()) % players.size();
+        return players.get(nextIndex);
+    }
+
+    public void changeColor() {
+        currentColor = players.get(currentPlayerIndex).chooseColor();
     }
 
     private void handleSpecialCard(Card card) {
-        String value = card.getValue();
-
-        switch (value) {
-            case "Reverse" -> {
-                if (players.size() == 2) {
-                    nextTurn();
-                } else {
-                    isClockWise = !isClockWise;
-                }
-            }
-            case "Skip" -> nextTurn();
-            case "Draw2" -> {
-                nextTurn();
-                Player victim = players.get(currentPlayerIndex);
-                for (int i = 0; i < 2; i++) {
-                    victim.addCard(deck.drawCard());
-                }
-            }
-            case "Wild" -> {
-                currentColor = players.get(currentPlayerIndex).chooseColor();
-            }
-            case "WildDraw4" -> {
-                nextTurn();
-
-                currentColor = players.get(currentPlayerIndex).chooseColor();
-                Player victim = players.get(currentPlayerIndex);
-                for (int i = 0; i < 4; i++)
-                    victim.addCard(safeDraw());
-            }
+        // If it's a normal colored card, update the game's currentColor tracker
+        if (!card.getColor().equals("Wild")) {
+            this.currentColor = card.getColor();
         }
+
+        // Delegate special card effects to the rules engine
+        GameRules.applySpecialCard(card, this, deck);
+
+        // String value = card.getValue();
+
+        // switch (value) {
+        // case "Reverse" -> {
+        // if (players.size() == 2) {
+        // nextTurn();
+        // } else {
+        // isClockWise = !isClockWise;
+        // }
+        // }
+        // case "Skip" -> nextTurn();
+        // case "Draw2" -> {
+        // nextTurn();
+        // Player victim = players.get(currentPlayerIndex);
+        // for (int i = 0; i < 2; i++) {
+        // victim.addCard(deck.drawCard());
+        // }
+        // }
+        // case "Wild" -> {
+        // currentColor = players.get(currentPlayerIndex).chooseColor();
+        // }
+        // case "WildDraw4" -> {
+        // nextTurn();
+
+        // currentColor = players.get(currentPlayerIndex).chooseColor();
+        // Player victim = players.get(currentPlayerIndex);
+        // for (int i = 0; i < 4; i++)
+        // victim.addCard(safeDraw());
+        // }
+        // }
     }
 
     private void nextTurn() {

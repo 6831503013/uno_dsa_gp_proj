@@ -1,7 +1,7 @@
 package models;
 
-import java.util.*;
 import data.GameConstants;
+import java.util.*;
 
 public class Deck {
 
@@ -48,6 +48,11 @@ public class Deck {
     public Card drawCard() {
         // TODO: Return top card
         return null;
+    }
+
+    public void addCard(Card firstCard) {
+        // TODO: If WildDraw4 is the first card flipped, it must be put back to the
+        // deck: in this case to the bottom of the pile.
     }
 
     public boolean isEmpty() {

@@ -1,4 +1,4 @@
-    package models;
+package models;
 
 import java.util.*;
 
@@ -56,5 +56,13 @@ public class Player {
             }
         }
         return null; // No playable card
+    }
+
+    public String chooseColor() {
+        /**
+         * "I need Player class to have a public String chooseColor() method that
+         * returns either 'Red', 'Blue', 'Green', or 'Yellow'."
+         */
+        return "";
     }
 }
