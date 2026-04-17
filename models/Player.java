@@ -14,17 +14,14 @@ public class Player {
     }
 
     public void addCard(Card card) {
-        // TODO
         hand.add(card);
     }
 
     public void removeCard(int index) {
-        // TODO
         hand.remove(index);
     }
 
     public Card getCard(int index) {
-        // TODO
         return hand.get(index);
     }
 
@@ -35,10 +32,6 @@ public class Player {
     public void showHand() {
         // TODO: Display cards
         System.out.println(name + "'s hand:");
-        // for (int i = 0; i < hand.size(); i++) {
-        // Card card = hand.get(i);
-        // DisplayHandler.displayCard(i, card);
-        // }
         DisplayHandler.displayHand(hand);
     }
 
@@ -54,17 +47,6 @@ public class Player {
         return hand;
     }
 
-    // public Card playTurn(Card topCard) {
-    // for (int i = 0; i < hand.size(); i++) {
-    // Card candidate = hand.get(i);
-    // if (candidate.getColor().equals(topCard.getColor())
-    // || candidate.getValue().equals(topCard.getValue())
-    // || candidate.getColor().equals("Wild")) {
-    // return hand.remove(i); // Remove and return the card
-    // }
-    // }
-    // return null; // No playable card
-    // }
     public Move playTurn(Scanner scanner) {
 
         System.out.println("Choose a card index to play OR type 'd' to draw:");

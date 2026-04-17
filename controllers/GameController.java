@@ -33,7 +33,7 @@ public class GameController {
         dealCards();
         initializeDiscardPile();
         Player winner = gameLoop();
-        // declareWinner(winner);
+        declareWinner(winner);
     }
 
     public String getValidateName(Scanner sc) throws EmptyNameException, InvalidNameException {
