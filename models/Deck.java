@@ -62,16 +62,7 @@ public class Deck {
         Collections.shuffle(temp);
         drawPile = new LinkedList<>(temp);
     }
-    // public void shuffleDeck() {
-    // Random rand = new Random();
 
-    // for (int i = cards.size() - 1; i > 0; i--) {
-    // int j = rand.nextInt(i + 1);
-    // Card temp = cards.get(i);
-    // cards.set(i, cards.get(j));
-    // cards.set(j, temp);
-    // }
-    // }
     public Card drawCard() {// Draws a card from the top of the draw pile
         if (drawPile.isEmpty()) {
             System.out.println("Deck is empty!");
@@ -86,7 +77,8 @@ public class Deck {
         }
     }
 
-    public void reloadFromDiscard(List<Card> discardedCards) {// Reloads the draw pile using cards from the discard pile.
+    public void reloadFromDiscard(List<Card> discardedCards) {// Reloads the draw pile using cards from the discard
+                                                              // pile.
         if (discardedCards == null || discardedCards.isEmpty()) {
             return;
         }
