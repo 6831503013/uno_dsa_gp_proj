@@ -30,7 +30,6 @@ public class Player {
     }
 
     public void showHand() {
-        // TODO: Display cards
         System.out.println(name + "'s hand:");
         DisplayHandler.displayHand(hand);
     }
@@ -60,7 +59,8 @@ public class Player {
 
         // player chooses a card
         try {
-            int index = Integer.parseInt(input);
+            // Convert 1-based index to 0-based
+            int index = Integer.parseInt(input) - 1;
 
             if (index >= 0 && index < hand.size()) {
                 Card chosenCard = hand.get(index);
@@ -78,16 +78,11 @@ public class Player {
     }
 
     public String chooseColor() {
-        /**
-         * "I need Player class to have a public String chooseColor() method
-         * that returns either 'Red', 'Blue', 'Green', or 'Yellow'."
-         */
         Scanner scanner = new Scanner(System.in);
         System.out.println(name + ", please choose a color (R, B, G, Y): ");
         String color = "";
         while (color.isEmpty()) {
             if (!scanner.hasNextLine()) {
-                // scanner.close();
                 return "Red"; // Default color if no input
             }
             color = scanner.nextLine().trim();

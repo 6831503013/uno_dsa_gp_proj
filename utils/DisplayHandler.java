@@ -28,11 +28,16 @@ public class DisplayHandler {
     // Get ANSI color from card color
     private static String getColorCode(String color) {
         return switch (color.toUpperCase()) {
-            case "RED" -> RED;
-            case "BLUE" -> BLUE;
-            case "GREEN" -> GREEN;
-            case "YELLOW" -> YELLOW;
-            default -> RESET;
+            case "RED" ->
+                RED;
+            case "BLUE" ->
+                BLUE;
+            case "GREEN" ->
+                GREEN;
+            case "YELLOW" ->
+                YELLOW;
+            default ->
+                RESET;
         };
     }
 
@@ -46,8 +51,8 @@ public class DisplayHandler {
 
         // 1. Calculate padding for centering
         int totalPadding = totalWidth - value.length();
-        int leftPadding = totalPadding / 2;
-        int rightPadding = totalPadding - leftPadding;
+        int rightPadding = totalPadding / 2;
+        int leftPadding = totalPadding - rightPadding;
 
         // 2. Build the strings
         String border = colorCode + "." + "-".repeat(totalWidth) + "." + RESET;
@@ -83,8 +88,7 @@ public class DisplayHandler {
             return;
         }
 
-        System.out.println("Your hand:");
-
+        // System.out.println("Your hand:");
         List<List<String>> renderedCards = new ArrayList<>();
 
         for (Card card : hand) {
@@ -99,6 +103,18 @@ public class DisplayHandler {
             }
             System.out.println();
         }
+
+        // Display card indices (1-based)
+        for (int i = 0; i < hand.size(); i++) {
+            String index = String.valueOf(i + 1);
+            int cardWidth = 11; // width of card with borders
+            int totalPadding = cardWidth - index.length();
+            int leftPadding = totalPadding / 2;
+            int rightPadding = totalPadding - leftPadding;
+            String indexLine = " ".repeat(leftPadding) + index + " ".repeat(rightPadding);
+            System.out.print(indexLine + "  ");
+        }
+        System.out.println();
     }
 
     public static void displayWinner(String playerName) {
