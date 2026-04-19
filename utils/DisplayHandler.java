@@ -7,7 +7,9 @@ import models.Card;
 public class DisplayHandler {
 
     public static void displayPlayerTurn(String playerName) {
-        System.out.println("It's " + playerName + "'s turn!");
+        typewrite("It's " + playerName + "'s turn!", 90);
+        System.out.println();
+        // System.out.println("It's " + playerName + "'s turn!");
     }
 
     public static void declareWinner(String playerName) {
@@ -94,6 +96,7 @@ public class DisplayHandler {
             System.out.flush();
             pause(speed);
         }
+        System.out.println(); // Add a newline at the end
     }
 
     public static void displayCard(int index, Card card) {

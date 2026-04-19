@@ -100,10 +100,9 @@ public class GameController {
 
     private Player gameLoop() {
         while (true) {
-            // clear the screen after drawing for better readability
+            // Clear the console after a successful move for better readability
             System.out.print("\033[H\033[2J");
             System.out.flush();
-
             Player currentPlayer = players.get(currentPlayerIndex);
             Card topCard = discardPile.peek();
             DisplayHandler.displayPlayerTurn(currentPlayer.getName());
@@ -160,6 +159,8 @@ public class GameController {
                             } else {
                                 System.out.println("That card is not playable.");
                             }
+                        } else {
+                            DisplayHandler.typewrite(currentPlayer.getName() + " cannot choose to draw again.", 90);
                         }
                     }
                     break;
