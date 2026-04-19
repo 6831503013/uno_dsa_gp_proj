@@ -16,7 +16,6 @@ public class DisplayHandler {
         String WHITE = "\033[97m";
         String RESET = "\033[0m";
 
-        // Your original unoArt
         String unoArt = """
                 ██╗   ██╗███╗   ██╗ ██████╗ ██╗
                 ██║   ██║████╗  ██║██╔═══██╗██║
@@ -25,7 +24,10 @@ public class DisplayHandler {
                 ╚██████╔╝██║ ╚████║╚██████╔╝██╗
                  ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝""";
 
-        // 1. The Slam: Display UNO! line by line
+        // 1. Calculate the center point based on the logo width (approx 44 chars)
+        int logoWidth = 44;
+
+        // 2. The Slam: UNO!
         System.out.println(RED);
         for (String line : unoArt.split("\n")) {
             System.out.println(line);
@@ -33,41 +35,46 @@ public class DisplayHandler {
         }
         pause(400);
 
-        // 2. The Firework Burst: Creating a visual explosion effect
-        System.out.println("\n");
+        // 3. The Firework Burst (Centered)
         String[] burst = {
-                "       .        ",
-                "    .  |  .     ",
-                "  '  - O -  '   ",
-                "    '  |  '     ",
-                "       '        "
+                "       .       ",
+                "    .  |  .    ",
+                "  '  - O -  '  ",
+                "    '  |  '    ",
+                "       '       "
         };
 
+        System.out.println("\n");
         for (String line : burst) {
-            System.out.println(GOLD + "          " + line);
+            int padding = (logoWidth - line.length()) / 2;
+            System.out.println(GOLD + " ".repeat(Math.max(0, padding)) + line);
             pause(100);
         }
 
-        // 3. The Reveal: "Typewrite" the victory declaration
-        String winnerBox = " ★★★ " + playerName.toUpperCase() + " WINS THE GAME! ★★★ ";
+        // 4. The Reveal: Winner Box (Centered)
+        String winnerBox = " ★ " + playerName.toUpperCase() + " WINS THE GAME! ★ ";
+        int boxPadding = (logoWidth - winnerBox.length()) / 2;
+        String leftPad = " ".repeat(Math.max(0, boxPadding));
 
         System.out.print("\n" + WHITE);
-        // Draw top line of the banner
-        System.out.println("  " + "═".repeat(winnerBox.length()));
-
-        // Type the winner name centered
-        System.out.print("  ");
+        System.out.println(leftPad + "═".repeat(winnerBox.length()));
+        System.out.print(leftPad);
         typewrite(winnerBox, 60);
-        System.out.println();
+        System.out.println("\n" + leftPad + "═".repeat(winnerBox.length()));
 
-        // Draw bottom line
-        System.out.println(WHITE + "  " + "═".repeat(winnerBox.length()));
+        // 5. Glory Message (Centered)
+        String glory = "* GLORY TO THE CHAMPION *";
+        int gloryPadding = (logoWidth - glory.length()) / 2;
+        String gloryPad = " ".repeat(Math.max(0, gloryPadding));
 
-        // 4. Final Polish: A little shimmering star at the end
         for (int i = 0; i < 4; i++) {
-            String star = (i % 2 == 0) ? "✨" : "  ";
-            System.out.print("\r  " + star + "  GLORY TO THE CHAMPION  " + star);
+            // \r goes to start of line, then we apply calculated padding
+            System.out.print("\r" + GOLD + gloryPad + glory);
             pause(400);
+            // Subtle flicker effect by clearing and re-printing
+            System.out.print("\r" + " ".repeat(logoWidth));
+            pause(200);
+            System.out.print("\r" + GOLD + gloryPad + glory);
         }
 
         System.out.println("\n" + RESET);
