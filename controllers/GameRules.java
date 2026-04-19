@@ -7,13 +7,14 @@ import utils.DisplayHandler;
 
 public class GameRules {
 
-  public static boolean isValidMove(Card playedCard, Card topCard) {
+    public static boolean isValidMove(Card playedCard, Card topCard) {
 
-      String playedColor = playedCard.getColor();
-      String playedValue = playedCard.getValue();
-      String topColor = topCard.getColor();
-      String topValue = topCard.getValue();
-        // Checks the color, value, and if it's a wild card to determine if the move is valid
+        String playedColor = playedCard.getColor();
+        String playedValue = playedCard.getValue();
+        String topColor = topCard.getColor();
+        String topValue = topCard.getValue();
+        // Checks the color, value, and if it's a wild card to determine if the move is
+        // valid
         if (topValue.equals("Wild") || topValue.equals("WildDraw4")) {
             // If the top card is a wild card, only the color matters
             return playedColor.equals(topColor) || playedValue.equals("Wild")
@@ -25,12 +26,19 @@ public class GameRules {
                 || playedValue.equals("WildDraw4");
     }
 
-    // Applies the effects of special cards such as Skip, Reverse, Draw2, Wild, and WildDraw4
+    // Applies the effects of special cards such as Skip, Reverse, Draw2, Wild, and
+    // WildDraw4
     public static void applySpecialCard(Card card, GameController game, Deck deck) {
 
         switch (card.getValue()) {
             case "Skip" -> {
-                DisplayHandler.displaySkipCard();
+                // Identify who is next in line based on current direction
+                Player victim = game.getNextPlayer();
+
+                // Pass that name to the animation
+                DisplayHandler.displaySkipCard(victim.getName());
+
+                // Actually jump the turn
                 game.skipNextPlayer();
             }
 
@@ -40,28 +48,27 @@ public class GameRules {
             }
 
             case "Draw2" -> {
-                DisplayHandler.displayDraw2Card();
-                Player nextPlayer = game.getNextPlayer();
-                // Draw 2 cards and then skip that player's turn
-                nextPlayer.addCard(deck.drawCard());
-                nextPlayer.addCard(deck.drawCard());
+                Player victim = game.getNextPlayer();
+                // Update displayDraw2Card to accept a name too!
+                DisplayHandler.displayDraw2Card(victim.getName());
+
+                victim.addCard(deck.drawCard());
+                victim.addCard(deck.drawCard());
                 game.skipNextPlayer();
             }
-
             case "Wild" -> {
                 DisplayHandler.displayWildCard();
                 game.changeColor();
             }
 
             case "WildDraw4" -> {
-                DisplayHandler.displayWild4Card();
+                Player victim = game.getNextPlayer();
+                DisplayHandler.displayWild4Card(victim.getName());
+
                 game.changeColor();
-                Player nextPlayer = game.getNextPlayer();
-                System.out.println(nextPlayer.getName() + " must draw 4 cards and skip their turn.");
                 for (int i = 0; i < 4; i++) {
-                    nextPlayer.addCard(deck.drawCard());
+                    victim.addCard(deck.drawCard());
                 }
-                // Order matters: pick color, then skip the victim
                 game.skipNextPlayer();
             }
         }

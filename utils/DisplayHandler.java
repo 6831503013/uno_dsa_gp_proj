@@ -219,36 +219,35 @@ public class DisplayHandler {
 
     // Display functions for wild cards and special cards can be added here as
     // needed
-    public static void displaySkipCard() {
-        String RED = "\033[91m"; // bright red
+    // 1. Updated Skip Card with Player Name
+    public static void displaySkipCard(String playerName) {
+        String RED = "\033[91m";
         String RESET = "\033[0m";
 
-        String skipArt = """
-                  ███████╗██╗  ██╗██╗██████╗
-                  ██╔════╝██║ ██╔╝██║██╔══██╗
-                  ███████╗█████╔╝ ██║██████╔╝
-                  ╚════██║██╔═██╗ ██║██╔═══╝
-                  ███████║██║  ██╗██║██║
-                  ╚══════╝╚═╝  ╚═╝╚═╝╚═╝
+        String skipArtTemplate = """
+                      ███████╗██╗  ██╗██╗██████╗
+                      ██╔════╝██║ ██╔╝██║██╔══██╗
+                      ███████╗█████╔╝ ██║██████╔╝
+                      ╚════██║██╔═██╗ ██║██╔═══╝
+                      ███████║██║  ██╗██║██║
+                      ╚══════╝╚═╝  ╚═╝╚═╝╚═╝
 
-                        O
-                       /
+                            O
+                           /
 
-                     TURN LOST
-                     You got SKIPPED!
+                      TURN LOST
+                %s got SKIPPED!
                 """;
 
+        String skipArt = skipArtTemplate.formatted(playerName);
         String[] lines = skipArt.split("\n");
 
         System.out.println();
         for (String line : lines) {
             System.out.println(RED + line + RESET);
-            try {
-                Thread.sleep(120);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            pause(100);
         }
+        pause(1000);
     }
 
     public static void displayReverseCard() {
@@ -277,36 +276,37 @@ public class DisplayHandler {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+
         }
+        pause(1000);
     }
 
-    public static void displayDraw2Card() {
-        String YELLOW = "\033[93m"; // bright yellow
+    // 2. Updated Draw 2 with Player Name
+    public static void displayDraw2Card(String playerName) {
+        String YELLOW = "\033[93m";
         String RESET = "\033[0m";
 
-        String draw2Art = """
+        String draw2ArtTemplate = """
                   ██████╗ ██████╗  █████╗ ██╗    ██╗  ██████╗
-                  ██╔══██╗██╔══██╗██╔══██╗██║    ██║ ██╔═══██╗
+                  ██╔══██╗██╔══██╗██╔══██╗██║     ██║ ██╔═══██╗
                   ██║  ██║██████╔╝███████║██║ █╗ ██║     ██╔╝
                   ██║  ██║██╔══██╗██╔══██║██║███╗██║  ██╔╝
                   ██████╔╝██║  ██║██║  ██║╚███╔███╔╝ ███████╗
                   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝  ╚══════╝
 
-                         ▌▌   +2   ▌▌
-                         DRAW  TWO
+                          ▌▌   +2   ▌▌
+                %s MUST DRAW TWO!
                 """;
 
-        String[] lines = draw2Art.split("\\n");
+        String draw2Art = draw2ArtTemplate.formatted(playerName);
+        String[] lines = draw2Art.split("\n");
 
         System.out.println();
         for (String line : lines) {
             System.out.println(YELLOW + line + RESET);
-            try {
-                Thread.sleep(120);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            pause(100);
         }
+        pause(1000);
     }
 
     public static void displayWildCard() {
@@ -353,9 +353,11 @@ public class DisplayHandler {
                 Thread.currentThread().interrupt();
             }
         }
+        pause(1000);
     }
 
-    public static void displayWild4Card() {
+    // 3. Updated Wild Draw 4 with Player Name
+    public static void displayWild4Card(String playerName) {
         String PURPLE = "\033[95m";
         String RED = "\033[91m";
         String YELLOW = "\033[93m";
@@ -363,7 +365,7 @@ public class DisplayHandler {
         String GREEN = "\033[92m";
         String RESET = "\033[0m";
 
-        String wild4Art = """
+        String wild4ArtTemplate = """
                   ██╗    ██╗██╗██╗     ██████╗
                   ██║    ██║██║██║     ██╔══██╗
                   ██║ █╗ ██║██║██║     ██║  ██║
@@ -379,42 +381,25 @@ public class DisplayHandler {
                                  ██║
                                  ██║
 
-                        >>>  +4  <<<
-                       DRAW   FOUR
+                 >>> %s DRAWS FOUR <<<
                 """;
 
-        String[] lines = wild4Art.split("\\n");
+        String wild4Art = wild4ArtTemplate.formatted(playerName);
+        String[] lines = wild4Art.split("\n");
 
         System.out.println();
         for (String line : lines) {
-
-            // Step 1: apply red base
             line = RED + line + RESET;
-
-            // Step 2: multicolor for [R][Y][B][G]
+            // (Keep your existing multicolor logic for [R][Y][B][G] here...)
             if (line.contains("[R]")) {
                 line = line.replace("[R]", RED + "[R]" + PURPLE)
                         .replace("[Y]", YELLOW + "[Y]" + PURPLE)
                         .replace("[B]", BLUE + "[B]" + PURPLE)
                         .replace("[G]", GREEN + "[G]" + PURPLE);
             }
-
-            // Step 3: highlight +4 and FOUR in red
-            if (line.contains("+4")) {
-                line = line.replace("+4", RED + "+4" + RED);
-            }
-
-            if (line.contains("FOUR")) {
-                line = line.replace("FOUR", RED + "FOUR" + PURPLE);
-            }
-
-            System.out.println(line + RESET);
-
-            try {
-                Thread.sleep(120);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            System.out.println(line);
+            pause(120);
         }
+        pause(1000);
     }
 }

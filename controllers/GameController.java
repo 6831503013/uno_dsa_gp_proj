@@ -100,9 +100,10 @@ public class GameController {
 
     private Player gameLoop() {
         while (true) {
-            // Clear the console after a successful move for better readability
+            // clear the screen after drawing for better readability
             System.out.print("\033[H\033[2J");
             System.out.flush();
+
             Player currentPlayer = players.get(currentPlayerIndex);
             Card topCard = discardPile.peek();
             DisplayHandler.displayPlayerTurn(currentPlayer.getName());
@@ -206,7 +207,6 @@ public class GameController {
 
     public void skipNextPlayer() {
         nextTurn();
-        DisplayHandler.typewrite("The next player is skipped.", 90);
     }
 
     public void reverseDirection() {
