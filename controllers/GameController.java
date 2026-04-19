@@ -102,6 +102,7 @@ public class GameController {
         while (true) {
             Player currentPlayer = players.get(currentPlayerIndex);
             Card topCard = discardPile.peek();
+            DisplayHandler.displayPlayerTurn(currentPlayer.getName());
 
             if (isSpecialCard(topCard)) {
                 topCard.setColor(currentColor);
@@ -165,6 +166,8 @@ public class GameController {
                             // return winner and end game loop function
                             return currentPlayer;
                         }
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush();
                         break;
                     } else {
                         System.out.println("Invalid move!");
@@ -196,8 +199,7 @@ public class GameController {
 
     public Player getNextPlayer() {
         int direction = isClockWise ? 1 : -1;
-        // We add players.size() before the module to handle negative results from
-        // counter-clockwise
+        // We add players.size() before the module to handle negative results from counter-clockwise
         int nextIndex = (currentPlayerIndex + direction + players.size()) % players.size();
         return players.get(nextIndex);
     }

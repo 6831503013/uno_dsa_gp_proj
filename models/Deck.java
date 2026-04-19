@@ -23,7 +23,6 @@ public class Deck {
      * - 4 Wild and 4 Wild Draw 4 cards
      */
     public void createDeck() {
-        // TODO: Create UNO cards
         cards.clear(); // prevents duplicate cards if method is called again
 
         for (String color : GameConstants.COLORS) {
@@ -78,7 +77,7 @@ public class Deck {
     }
 
     public void reloadFromDiscard(List<Card> discardedCards) {// Reloads the draw pile using cards from the discard
-                                                              // pile.
+        // pile.
         if (discardedCards == null || discardedCards.isEmpty()) {
             return;
         }

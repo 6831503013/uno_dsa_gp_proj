@@ -7,9 +7,7 @@ import models.Player;
 public class RecursionHelper {
 
     public static Card drawUntilPlayable(Player player, Deck deck, Card topCard) {
-        // TODO: Recursive logic
-        if (deck.isEmpty())
-        {
+        if (deck.isEmpty()) {
             return null;
         }
 

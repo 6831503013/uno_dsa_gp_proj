@@ -69,11 +69,10 @@ public class Player {
         } catch (NumberFormatException e) {
             // Invalid input, will be handled below
             System.out.println("Error: " + e.getMessage());
-            scanner.nextLine();
         }
 
         // invalid input (input error)
-        System.out.println("Invalid input, try again.");
+        System.out.println("Invalid input, try again!!!!!");
         return playTurn(scanner); // retry input only
     }
 
@@ -101,7 +100,7 @@ public class Player {
                 }
             };
         }
-        // scanner.close();
+        scanner.close();
         return color;
     }
 }

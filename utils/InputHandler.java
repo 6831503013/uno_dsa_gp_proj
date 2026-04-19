@@ -28,8 +28,7 @@ public class InputHandler {
 
     public static int getInt(String message) {
         System.out.print(message);
-        // TODO: Validate input
-    int input = -1;
+        int input = -1;
         boolean isValid = false;
 
         while (!isValid) {
