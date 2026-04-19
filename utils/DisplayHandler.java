@@ -88,7 +88,7 @@ public class DisplayHandler {
         }
     }
 
-    private static void typewrite(String text, int speed) {
+    public static void typewrite(String text, int speed) {
         for (char c : text.toCharArray()) {
             System.out.print(c);
             System.out.flush();

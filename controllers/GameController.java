@@ -49,7 +49,7 @@ public class GameController {
         }
 
         // Just for the sake of the program
-        String[] names = {playerName, "CPU 1", "CPU 2"};
+        String[] names = { playerName, "CPU 1", "CPU 2" };
         for (String n : names) {
             // adding players to the game via Player constructor
             players.add(new Player(n));
@@ -100,6 +100,10 @@ public class GameController {
 
     private Player gameLoop() {
         while (true) {
+            // clear the screen after drawing for better readability
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
             Player currentPlayer = players.get(currentPlayerIndex);
             Card topCard = discardPile.peek();
             DisplayHandler.displayPlayerTurn(currentPlayer.getName());
@@ -118,29 +122,44 @@ public class GameController {
             // Ask the player for their move until they make a valid one
             while (true) {
                 Move move = currentPlayer.playTurn(scanner);
+
                 if (move.getType() == Move.Type.DRAW) {
-                    // Player chose to draw
                     System.out.println(currentPlayer.getName() + " chose to draw.");
-                    Card drawnCard = RecursionHelper.drawUntilPlayable(currentPlayer, deck, topCard);
-                    // After drawing, check if the player wants to play the drawn card
+
+                    Card drawnCard = RecursionHelper.drawUntilPlayable(currentPlayer, deck,
+                            topCard);
+
                     if (drawnCard != null) {
-                        System.out.println("Do you want to play the drawn card? (y/n):");
-                        String input = scanner.nextLine();
+                        // clear the screen after drawing for better readability
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush();
 
-                        // player chooses to play the drawn card
-                        if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes") || input.trim().isEmpty()) {
-                            System.out.println(currentPlayer.getName() + " played: " + drawnCard);
-                            // currentPlayer.getHand().remove(drawnCard);
-                            currentColor = drawnCard.getColor();
-                            discardPile.push(drawnCard);
+                        // show top card and player hand again after drawing
+                        DisplayHandler.renderTopCard(topCard);
+                        System.out.println(currentPlayer.getName() + "'s hand:");
+                        DisplayHandler.displayHand(currentPlayer.getHand());
 
-                            // Apply special effect RIGHT AFTER the card is played
-                            if (isSpecialCard(drawnCard)) {
-                                GameRules.applySpecialCard(drawnCard, this, deck);
+                        // Ask the player to choose whether to play or draw again
+                        Move playMove = currentPlayer.playTurn(scanner);
+
+                        // Player chose to play the card
+                        if (playMove.getType() == Move.Type.PLAY) {
+                            Card chosenCard = playMove.getCard();
+
+                            // Check if the played card is valid
+                            if (GameRules.isValidMove(chosenCard, topCard)) {
+                                currentPlayer.getHand().remove(chosenCard);
+                                System.out.println(currentPlayer.getName() + " played: " + chosenCard);
+                                currentColor = chosenCard.getColor();
+                                discardPile.push(chosenCard);
+
+                                // Apply special effect RIGHT AFTER the card is played
+                                if (isSpecialCard(chosenCard)) {
+                                    GameRules.applySpecialCard(chosenCard, this, deck);
+                                }
+                            } else {
+                                System.out.println("That card is not playable.");
                             }
-                        } else {
-                            System.out.println(currentPlayer.getName() + " chose not to play the drawn card.");
-                            currentPlayer.addCard(drawnCard);
                         }
                     }
                     break;
@@ -164,6 +183,7 @@ public class GameController {
                             // return winner and end game loop function
                             return currentPlayer;
                         }
+                        // Clear the console after a successful move for better readability
                         System.out.print("\033[H\033[2J");
                         System.out.flush();
                         break;
@@ -184,7 +204,7 @@ public class GameController {
 
     public void skipNextPlayer() {
         nextTurn();
-        System.out.println("The next player is skipped.");
+        DisplayHandler.typewrite("The next player is skipped.", 90);
     }
 
     public void reverseDirection() {
@@ -197,7 +217,8 @@ public class GameController {
 
     public Player getNextPlayer() {
         int direction = isClockWise ? 1 : -1;
-        // We add players.size() before the module to handle negative results from counter-clockwise
+        // We add players.size() before the module to handle negative results from
+        // counter-clockwise
         int nextIndex = (currentPlayerIndex + direction + players.size()) % players.size();
         return players.get(nextIndex);
     }

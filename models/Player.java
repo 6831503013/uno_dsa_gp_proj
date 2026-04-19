@@ -100,7 +100,6 @@ public class Player {
                 }
             };
         }
-        scanner.close();
         return color;
     }
 }
