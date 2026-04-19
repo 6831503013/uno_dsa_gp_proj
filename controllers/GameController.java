@@ -160,7 +160,8 @@ public class GameController {
                                 System.out.println("That card is not playable.");
                             }
                         } else {
-                            DisplayHandler.typewrite(currentPlayer.getName() + " cannot choose to draw again.", 90);
+                            DisplayHandler.typewrite("\u001B[31m" + currentPlayer.getName()
+                                    + " cannot choose to draw again." + "\u001B[0m", 90);
                         }
                     }
                     break;
