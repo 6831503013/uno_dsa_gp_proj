@@ -1,5 +1,6 @@
 package utils;
 
+import controllers.GameRules;
 import models.Card;
 import models.Deck;
 import models.Player;
@@ -15,13 +16,12 @@ public class RecursionHelper {
 
         player.addCard(drawnCard);
 
-        if (drawnCard.getColor().equals(topCard.getColor())
-                || drawnCard.getValue().equals(topCard.getValue())
-                || drawnCard.getColor().equals("Wild")) {
+        if (GameRules.isValidMove(drawnCard, topCard)) {
+            System.out.println(player.getName() + " drew: " + drawnCard + " - playable!");
             return drawnCard;
         } else {
+            System.out.println(player.getName() + " drew: " + drawnCard + " - not playable, drawing again...");
             return drawUntilPlayable(player, deck, topCard);
         }
-
     }
 }

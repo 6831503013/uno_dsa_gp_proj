@@ -121,21 +121,16 @@ public class GameController {
                 if (move.getType() == Move.Type.DRAW) {
                     // Player chose to draw
                     System.out.println(currentPlayer.getName() + " chose to draw.");
-                    Card drawnCard = safeDraw();
-                    if (drawnCard != null) {
-                        System.out.println(currentPlayer.getName() + " drew: " + drawnCard);
-                        currentPlayer.addCard(drawnCard);
-                    }
+                    Card drawnCard = RecursionHelper.drawUntilPlayable(currentPlayer, deck, topCard);
                     // After drawing, check if the player wants to play the drawn card
-                    if (drawnCard != null && GameRules.isValidMove(drawnCard, topCard)) {
+                    if (drawnCard != null) {
                         System.out.println("Do you want to play the drawn card? (y/n):");
-
                         String input = scanner.nextLine();
 
                         // player chooses to play the drawn card
-                        if (input.equalsIgnoreCase("y")) {
+                        if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes") || input.trim().isEmpty()) {
                             System.out.println(currentPlayer.getName() + " played: " + drawnCard);
-                            currentPlayer.getHand().remove(drawnCard);
+                            // currentPlayer.getHand().remove(drawnCard);
                             currentColor = drawnCard.getColor();
                             discardPile.push(drawnCard);
 
@@ -143,6 +138,9 @@ public class GameController {
                             if (isSpecialCard(drawnCard)) {
                                 GameRules.applySpecialCard(drawnCard, this, deck);
                             }
+                        } else {
+                            System.out.println(currentPlayer.getName() + " chose not to play the drawn card.");
+                            currentPlayer.addCard(drawnCard);
                         }
                     }
                     break;
