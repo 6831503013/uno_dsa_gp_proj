@@ -1,2 +1,13 @@
-# uno_dsa_gp_proj
-UNO Game Simulation (Java) Data Structures & Algorithms Group Project  This project is a console-based application developed in Java as part of a Data Structures and Algorithms (DSA) group project. The main objective is to demonstrate the practical application of core DSA concepts, including data structures, recursion, and iteration.  The program utilizes various data structures such as ArrayList, Queue, and Stack to manage and organize data efficiently. Iteration is used to control the overall program flow and processing, while recursion is incorporated to demonstrate problem-solving techniques within the system.  This project highlights the integration of theoretical DSA concepts into a structured program, helping to strengthen understanding of data organization, algorithm design, and Java programming.
+# uno_gp_proj
+This project is developed for a Java Object-Oriented Design and Programming (OODP) class, with a strong focus on applying core OODP rules and principles.
+
+The implementation demonstrates key object-oriented features and Java concepts, including:
+
+1. Read/Write from File – The system supports file handling operations for data persistence.
+2. Inheritance or Interface – Utilizes inheritance and/or interfaces to promote code reusability and abstraction.
+3. Exception Handling and Custom Exceptions – Implements proper error handling mechanisms, including user-defined exceptions.
+4. Input & Output from Keyboard – Allows user interaction through standard input and output.
+5. Collections with Generics – Uses Java Collections Framework with generics to manage data in a type-safe manner.
+6. Parametric Polymorphism – Applies generic programming techniques to enable flexible and reusable components.
+
+Overall, the project emphasizes clean design, modular structure, and adherence to object-oriented principles, demonstrating how OODP concepts are applied in a practical Java application.
