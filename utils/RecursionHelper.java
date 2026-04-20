@@ -28,7 +28,21 @@ public class RecursionHelper {
         }
 
         // ask the player if they want to draw again or play the card
-        String choice = InputHandler.getString("Do you want to draw again or play a card? (d/p): ").trim();
+        String choice;
+
+        while (true) {
+            choice = InputHandler
+                    .getString("Do you want to draw again or play a card? (d/p): ")
+                    .trim();
+
+            if (choice.equalsIgnoreCase("d") ||
+                    choice.equalsIgnoreCase("p") ||
+                    choice.isEmpty()) {
+                break; // valid input
+            }
+
+            System.out.println("\u001B[31mInvalid input. Please enter 'd' or 'p'.\u001B[0m");
+        }
 
         // If the player chooses to draw again, recursively call this method
         if (choice.equalsIgnoreCase("d") || choice.isEmpty()) {
